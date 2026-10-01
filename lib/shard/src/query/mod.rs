@@ -178,8 +178,8 @@ pub fn query_result_order<E>(
             ScoringQuery::OrderBy(order_by) => Some(Order::from(order_by.direction())),
             // Random sample does not require ordering
             ScoringQuery::Sample(SampleInternal::Random) => None,
-            // MMR candidates are ordered by vector distance at shard level
-            ScoringQuery::Mmr(mmr) => Some(get_distance(&mmr.using)?.distance_order()),
+            // MMR cannot be reordered
+            ScoringQuery::Mmr(_) => None,
         },
         None => {
             // Order by ID
